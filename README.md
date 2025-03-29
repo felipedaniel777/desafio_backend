@@ -69,33 +69,44 @@ A API estará disponível em `http://127.0.0.1:8000/`.
 
 ## Testes com Curl
 
-### 1. Autenticação (Obter Token JWT)
+### 1. Criar usuário
 ```sh
-curl -X POST http://127.0.0.1:8000/api/token/ -H "Content-Type: application/json" -d '{"username": "alice", "password": "senha123"}'
-```
+curl -X POST http://127.0.0.1:8000/api/usuarios/ -H "Content-Type: application/json" -d '{
+  "username": "testando",
+  "password": "senha123",
+  "email": "teste@email.com"
+}'
 
-### 2. Consultar saldo da carteira
+```
+### 2. Autenticação (Obter Token JWT)
 ```sh
-curl -X POST http://127.0.0.1:8000/api/usuarios/ -H "Content-Type: application/json" -d '{"username": "bob", "password": "senha456"}'
+curl -X POST http://127.0.0.1:8000/api/token/ -H "Content-Type: application/json" -d '{"username": "testando", "password": "senha123"}'
 ```
 
 ### 3. Consultar saldo da carteira
 ```sh
-curl -X GET http://127.0.0.1:8000/api/carteira/1/saldo/ -H "Authorization: Bearer SEU_TOKEN_AQUI"
+curl -X GET http://127.0.0.1:8000/api/carteira/ -H "Authorization: Bearer SEU_TOKEN"
 ```
 
 ### 4. Adicionar saldo à carteira
 ```sh
-curl -X POST http://127.0.0.1:8000/api/carteira/1/adicionar_saldo/ -H "Authorization: Bearer SEU_TOKEN_AQUI" -H "Content-Type: application/json" -d '{"valor": 100.0}'
+curl -X POST http://127.0.0.1:8000/api/carteira/adicionar_saldo/ -H "Content-Type: application/json" -H "Authorization: Bearer SEU_TOKEN" -d '{
+  "valor": 500.00
+}'
 ```
 
 ### 5. Transferência entre carteiras
 ```sh
-curl -X POST http://127.0.0.1:8000/api/transacoes/ -H "Authorization: Bearer SEU_TOKEN_AQUI" -H "Content-Type: application/json" -d '{"remetente": 1, "destinatario": 2, "valor": 50.0}'
+curl -X POST http://127.0.0.1:8000/api/transacoes/ -H "Content-Type: application/json" -H "Authorization: Bearer SEU_TOKEN" -d '{
+  "destinatario": "id_do_destinatario",
+  "valor": 200.00
+}'
+
+
 ```
 
 ### 6. Listar transações
 ```sh
-curl -X GET http://127.0.0.1:8000/api/transacoes/ -H "Authorization: Bearer SEU_TOKEN_AQUI"
+curl -X GET http://127.0.0.1:8000/api/transacoes/ -H "Authorization: Bearer SEU_TOKEN"
 ```
 
